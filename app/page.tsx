@@ -1,6 +1,6 @@
 import prisma from '@/lib/prisma';
-import { PostCard } from '@/components/PostCard';
-import { CreatePostForm } from '@/components/CreatePostForm';
+import { EnhancedPostCard } from '@/components/EnhancedPostCard';
+import { EnhancedCreatePostForm } from '@/components/EnhancedCreatePostForm';
 import { Card, CardContent } from '@/components/ui/card';
 
 export default async function HomePage() {
@@ -20,27 +20,34 @@ export default async function HomePage() {
   });
 
   return (
-    <main className="flex min-h-screen flex-col items-center bg-muted/40 p-4 md:p-8">
-      <div className="w-full max-w-2xl">
-        <h1 className="text-3xl font-bold text-muted-foreground mb-6 text-center">Social Feed</h1>
-        
-        <CreatePostForm currentUserId={currentUserId} />
+    <div className="flex justify-center bg-muted/30 min-h-screen">
+      <div className="w-full max-w-2xl p-4 md:p-6">
+        {/* Create Post Section */}
+        <div className="mb-6">
+          <EnhancedCreatePostForm currentUserId={currentUserId} />
+        </div>
 
-        <div className="space-y-4">
+        {/* Posts Feed */}
+        <div className="space-y-6">
           {posts.length === 0 ? (
-            <Card>
-              <CardContent className="pt-6">
-                <p className="text-center text-muted-foreground text-lg">No posts yet. Be the first to share something!</p>
+            <Card className="border-dashed">
+              <CardContent className="pt-8 pb-8">
+                <div className="text-center">
+                  <div className="text-4xl mb-4">📝</div>
+                  <h3 className="text-lg font-semibold text-muted-foreground mb-2">No posts yet</h3>
+                  <p className="text-muted-foreground">Be the first to share something with the community!</p>
+                </div>
               </CardContent>
             </Card>
           ) : (
             posts.map(post => (
-              <PostCard key={post.id} post={post} currentUserId={currentUserId} />
+              <EnhancedPostCard key={post.id} post={post} currentUserId={currentUserId} />
             ))
           )}
         </div>
       </div>
-    </main>
+    </div>
   );
 }
+
 
