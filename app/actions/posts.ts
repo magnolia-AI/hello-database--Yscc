@@ -74,6 +74,54 @@ export async function createComment(formData: FormData) {
   const authorId = formData.get('authorId') as string; // Assuming authorId is passed
   const postId = formData.get('postId') as string;
 
+
+// --- Like Actions ---
+
+export async function toggleLike(formData: FormData) {
+  const userId = formData.get('userId') as string;
+  const postId = formData.get('postId') as string;
+
+  if (!userId || !postId) {
+    return { success: false, error: 'User ID and Post ID are required.' };
+  }
+
+  try {
+    const existingLike = await prisma.like.findUnique({
+      where: {
+        userId_postId: {
+          userId,
+          postId,
+        },
+      },
+    });
+
+    if (existingLike) {
+      // User has already liked the post, so unlike it
+      await prisma.like.delete({
+        where: {
+          id: existingLike.id,
+        },
+      });
+      revalidatePath('/');
+      return { success: true, liked: false };
+    } else {
+      // User has not liked the post, so like it
+      await prisma.like.create({
+        data: {
+          userId,
+          postId,
+        },
+      });
+      revalidatePath('/');
+      return { success: true, liked: true };
+    }
+  } catch (error) {
+    console.error('Error toggling like:', error);
+    return { success: false, error: 'Failed to toggle like. Please try again.' };
+  }
+}
+
+
   if (!content || content.trim() === '') {
     return { error: 'Comment content cannot be empty.' };
   }
