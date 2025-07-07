@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useActionState } from 'react';
+import { useRef, useActionState, useEffect } from 'react';
 import { createPost } from '@/app/actions/posts';
 
 interface CreatePostFormProps {
@@ -42,6 +42,7 @@ export function CreatePostForm({ currentUserId }: CreatePostFormProps) {
     </div>
   );
 }
+
 
 
 
