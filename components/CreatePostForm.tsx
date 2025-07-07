@@ -1,5 +1,7 @@
 'use client';
 
+'use client';
+
 import { useRef, useActionState } from 'react';
 import { createPost } from '@/app/actions/posts';
 
