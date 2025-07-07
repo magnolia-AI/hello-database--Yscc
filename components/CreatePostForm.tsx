@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useActionState, useEffect } from 'react';
-import { createPost } from '@/app/actions/posts';
+import { createPostFormAction } from '@/app/actions/posts';
 
 interface CreatePostFormProps {
   currentUserId: string; // Assuming we have the current user's ID
@@ -9,7 +9,7 @@ interface CreatePostFormProps {
 
 export function CreatePostForm({ currentUserId }: CreatePostFormProps) {
   const formRef = useRef<HTMLFormElement>(null);
-  const [state, action, isPending] = useActionState(createPost, null);
+  const [state, action, isPending] = useActionState(createPostFormAction, null);
 
   // Use useEffect to react to state changes and reset form on success
   useEffect(() => {
@@ -21,7 +21,7 @@ export function CreatePostForm({ currentUserId }: CreatePostFormProps) {
   return (
     <div className="bg-white p-4 rounded-lg shadow-md mb-4">
       <h3 className="text-lg font-semibold mb-3">Create New Post</h3>
-      <form ref={formRef} action={handleSubmit} className="space-y-3">
+      <form ref={formRef} action={action} className="space-y-3">
         <textarea
           name="content"
           placeholder="What's on your mind?"
@@ -42,8 +42,4 @@ export function CreatePostForm({ currentUserId }: CreatePostFormProps) {
     </div>
   );
 }
-
-
-
-
 
