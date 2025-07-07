@@ -1,6 +1,7 @@
 import prisma from '@/lib/prisma';
 import { PostCard } from '@/components/PostCard';
 import { CreatePostForm } from '@/components/CreatePostForm';
+import { Card, CardContent } from '@/components/ui/card';
 
 export default async function HomePage() {
   // For demonstration, assuming a fixed current user ID. In a real app, this would come from auth.
@@ -19,15 +20,19 @@ export default async function HomePage() {
   });
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-4 md:p-8 bg-gray-100">
+    <main className="flex min-h-screen flex-col items-center bg-muted/40 p-4 md:p-8">
       <div className="w-full max-w-2xl">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">Social Feed</h1>
+        <h1 className="text-3xl font-bold text-muted-foreground mb-6 text-center">Social Feed</h1>
         
         <CreatePostForm currentUserId={currentUserId} />
 
         <div className="space-y-4">
           {posts.length === 0 ? (
-            <p className="text-center text-gray-600 text-lg">No posts yet. Be the first to share something!</p>
+            <Card>
+              <CardContent className="pt-6">
+                <p className="text-center text-muted-foreground text-lg">No posts yet. Be the first to share something!</p>
+              </CardContent>
+            </Card>
           ) : (
             posts.map(post => (
               <PostCard key={post.id} post={post} currentUserId={currentUserId} />
