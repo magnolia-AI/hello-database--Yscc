@@ -35,7 +35,7 @@ export async function createPost(formData: FormData) {
       },
     });
     revalidatePath('/'); // Revalidate the home page to show new post
-    redirect('/'); // Redirect to home after successful post
+    return { success: true, data: post };
   } catch (error) {
     console.error('Error creating post:', error);
     return { error: 'Failed to create post. Please try again.' };
@@ -149,4 +149,5 @@ export async function toggleLike(formData: FormData) {
     return { error: 'Failed to toggle like. Please try again.' };
   }
 }
+
 
